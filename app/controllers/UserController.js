@@ -1,6 +1,6 @@
 import UserModel from '../models/User.js';
-import RolModel from '../models/Rol.js';
 import bcrypt from 'bcryptjs';
+import RolModel from "../models/Rol.js";
 const UserController = {}
 
 // CREAR Y GUARDAR UN USUARIO
@@ -19,36 +19,37 @@ UserController.create = async (req, res) => {
     });
 
     //guardar y ...
-    await user.save().then(user => {
+    user.save((err, user) => {
+
+        if (err) {
+            console.log(err.name)
+            res.status(500).send({ message: err.message });
+            return;
+        }
 
         // Asignar Rol
         if (req.body.roles) {
-            RolModel.find(
-                {
-                    name: { $in: req.body.roles }
-                },
-            ).then( rol => {
-                user.roles = rol.map(role => role._id);
-            }).catch(err => {
-                res.status(500).send({ message: err });
-            });
-        }
-        // Guardar y enviar
-        user.save()
-            .then( user => {
-                res.send({
-                    message:"Usuario creado correctamente",
-                    user:user._id
-                    });
+            RolModel.findOne({name: req.body.roles}, (err, rol) => {
+                if (err) {
+                    res.status(500).send({message: err});
                 }
-            )
-            .catch(err => {
-                res.status(500).send({ message: err });
+                user.roles = rol._id;
+
+                // Guardar y enviar
+                user.save(err => {
+                    if (err) {
+                        res.status(500).send({ message: err });
+                        return;
+                    }
+
+                    res.send({
+                        message: "Usuario creado correctamente",
+                        user: user
+                    });
+                });
             });
-    }).catch(err => {
-        res.status(500).send({
-            message: "a"+err.message || "Ocurrió un error al crear un usuario"
-        });
+
+        }
     });
 };
 
@@ -64,9 +65,19 @@ UserController.findAll = async (req, res) => {
 
 // TRAER UN USUARIO CON UN ID
 UserController.findOne = async (req, res) => {
+
+    if(!req.params.id){
+        res.status(400).send({ message: "Los datos de busqueda no pueden estar vacios"})
+    }
+
+    const id = req.params.id;
+
     try {
-        const user = await UserModel.findById(req.params.id);
-        res.status(200).json(user);
+        const user = await UserModel.findById(id);
+        if(user)
+            res.status(200).json(user);
+        else
+            res.status(404).json({message: "No se encontró el usuario"})
     } catch(error) {
         res.status(404).json({ message: error.message});
     }
@@ -74,6 +85,7 @@ UserController.findOne = async (req, res) => {
 
 // ACTUALIZAR UN USUARIO POR ID
 UserController.update = async (req, res) => {
+
     if(!req.body) {
         res.status(400).send({
             message: "Los datos a actualizar no deben estar vacíos!"
