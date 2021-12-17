@@ -6,8 +6,12 @@ import dotenv from 'dotenv';
 
 import initialRoles from "./app/utils/createRoles.js";
 import db from "./app/models/index.js";
+
 import UserRouter from './app/routes/UserRouter.js';
+import PredioRouter from "./app/routes/PredioRouter.js";
+
 import { API_VERSION, IP_SERVER, PORT_DB } from './config.js';
+
 
 const app = express();
 dotenv.config();
@@ -26,6 +30,7 @@ app.get('/', (req, res) => {
 
 //Ruta usuarios
 app.use(`/api/${API_VERSION}/users`, UserRouter);
+app.use(`/api/${API_VERSION}/predios`, PredioRouter);
 
 
 const PORT = process.env.PORT || 5000;
