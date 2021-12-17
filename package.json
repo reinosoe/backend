@@ -2,16 +2,16 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.1",
     "connect-multiparty": "^2.2.0",
     "cors": "^2.8.5",
@@ -19,7 +19,10 @@
     "express": "^4.17.1",
     "jwt-simple": "^0.5.6",
     "moment": "^2.29.1",
-    "mongoose": "^6.1.1",
+    "mongoose": "^6.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.4.1",
     "nodemon": "^2.0.15"
   }
 }
