@@ -3,7 +3,10 @@ import mongoose from "mongoose";
 const Predio = mongoose.model(
     "Predio",
     new mongoose.Schema({
-        nombre: String,
+        nombre: {
+            type: String,
+            unique: true
+        },
         municipio: String,
         hectareas: Number,
         latitud: String,

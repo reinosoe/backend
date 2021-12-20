@@ -26,11 +26,11 @@ app.use(cors())
 
 // REDIRECCIONAR RUTA A PRINCIPAL
 app.get('/', (req, res) => {
-    res.redirect(`api`)
+    res.redirect(`api/`)
 })
 
 // RUTA PRINCIPAL
-app.get(`/api`, (req, res) => {
+app.get(`/api/`, (req, res) => {
     res.json({ message: 'Hola desde la API' })
 })
 
@@ -62,7 +62,7 @@ mongoose.connect(
         initialRoles()
         app.listen(PORT, () =>
             console.log(
-                `Servidor corriendo en el puerto: ${PORT}, en la URL: http://${IP_SERVER}:${PORT}/api`
+                `Servidor corriendo en el puerto: ${PORT}, en la URL: http://${IP_SERVER}:${PORT}`
             )
         )
     }
