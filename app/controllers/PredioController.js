@@ -20,12 +20,11 @@ PredioController.create = async (req, res) => {
         longitud: req.body.longitud,
     })
 
-    predios
-        .save()
-        .then((predios) => {
+    predios.save()
+        .then(() => {
             res.send({
                 message: 'Predio creado correctamente',
-                predio: predio,
+                predios: predios,
             })
         })
         .catch((err) => {

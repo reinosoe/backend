@@ -35,11 +35,11 @@ app.get(`/api`, (req, res) => {
 })
 
 //Rutas
-app.use(`/apiusers`, UserRouter)
-app.use(`/apipredios`, PredioRouter)
-app.use(`/apiproductos`, ProductoAgricolaRouter)
-app.use(`/apicultivos`, CultivoRouter)
-app.use(`/apiinsumos`, InsumoRouter)
+app.use(`/api/users`, UserRouter)
+app.use(`/api/predios`, PredioRouter)
+app.use(`/api/productos`, ProductoAgricolaRouter)
+app.use(`/api/cultivos`, CultivoRouter)
+app.use(`/api/insumos`, InsumoRouter)
 
 // RUTAS NO ENCONTRADAS
 app.all('*', (req, res) => {
