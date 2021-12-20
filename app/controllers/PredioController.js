@@ -5,22 +5,24 @@ const PredioController = {}
 
 // CREAR Y GUARDAR PREDIO
 PredioController.create = async (req, res) => {
-    if (!req.body.area || !req.body.latitud || !req.body.longitud) {
+    if (!req.body.nombre || !req.body.municipio || !req.body.hectareas || !req.body.latitud || !req.body.longitud) {
         res.status(400).send({
             message: 'Hay contenido que no puede estar vacío!',
         })
         return
     }
 
-    const predio = new PredioModel({
-        area: req.body.area,
+    const predios = new PredioModel({
+        nombre: req.body.nombre,
+        municipio: req.body.municipio,
+        hectareas: req.body.hectareas,
         latitud: req.body.latitud,
         longitud: req.body.longitud,
     })
 
-    predio
+    predios
         .save()
-        .then((predio) => {
+        .then((predios) => {
             res.send({
                 message: 'Predio creado correctamente',
                 predio: predio,

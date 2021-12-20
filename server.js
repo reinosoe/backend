@@ -13,7 +13,7 @@ import ProductoAgricolaRouter from './app/routes/ProductoAgriculaRouter.js'
 import CultivoRouter from './app/routes/CultivoRouter.js'
 import InsumoRouter from './app/routes/InsumoRouter.js'
 
-import { API_VERSION, IP_SERVER, PORT_DB } from './config.js'
+import { IP_SERVER, PORT_DB } from './config.js'
 
 const app = express()
 dotenv.config()
@@ -26,20 +26,20 @@ app.use(cors())
 
 // REDIRECCIONAR RUTA A PRINCIPAL
 app.get('/', (req, res) => {
-    res.redirect(`api/${API_VERSION}/`)
+    res.redirect(`api`)
 })
 
 // RUTA PRINCIPAL
-app.get(`/api/${API_VERSION}/`, (req, res) => {
+app.get(`/api`, (req, res) => {
     res.json({ message: 'Hola desde la API' })
 })
 
-//Ruta usuarios
-app.use(`/api/${API_VERSION}/users`, UserRouter)
-app.use(`/api/${API_VERSION}/predios`, PredioRouter)
-app.use(`/api/${API_VERSION}/productos`, ProductoAgricolaRouter)
-app.use(`/api/${API_VERSION}/cultivos`, CultivoRouter)
-app.use(`/api/${API_VERSION}/insumos`, InsumoRouter)
+//Rutas
+app.use(`/apiusers`, UserRouter)
+app.use(`/apipredios`, PredioRouter)
+app.use(`/apiproductos`, ProductoAgricolaRouter)
+app.use(`/apicultivos`, CultivoRouter)
+app.use(`/apiinsumos`, InsumoRouter)
 
 // RUTAS NO ENCONTRADAS
 app.all('*', (req, res) => {
@@ -62,7 +62,7 @@ mongoose.connect(
         initialRoles()
         app.listen(PORT, () =>
             console.log(
-                `Servidor corriendo en el puerto: ${PORT}, en la URL: http://${IP_SERVER}:${PORT}/api/${API_VERSION}/`
+                `Servidor corriendo en el puerto: ${PORT}, en la URL: http://${IP_SERVER}:${PORT}/api`
             )
         )
     }
