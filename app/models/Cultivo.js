@@ -11,8 +11,7 @@ const Cultivo = mongoose.model(
         producto: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "ProductoAgricola",
-        },
-        fechaInicio: Date,
+        }
     })
 );
 

@@ -24,7 +24,7 @@ PredioController.create = async (req, res) => {
         .then(() => {
             res.send({
                 message: 'Predio creado correctamente',
-                predios: predios,
+                predio: predios,
             })
         })
         .catch((err) => {
@@ -57,10 +57,11 @@ PredioController.findOne = async (req, res) => {
 // ACTUALIZAR UN PREDIO POR ID
 PredioController.update = async (req, res) => {
     if (
-        !req.body.area &&
+        !req.body.nombre &&
+        !req.body.municipio &&
+        !req.body.hectareas &&
         !req.body.latitud &&
-        !req.body.longitud &&
-        !req.body.usuarioGestor
+        !req.body.longitud
     ) {
         res.status(400).send({
             message: 'Los datos a actualizar no deben estar vacíos!',
@@ -70,42 +71,11 @@ PredioController.update = async (req, res) => {
 
     const id = req.params.id
 
-    if (req.body.usuarioGestor) {
-        const idUser = req.body.usuarioGestor
-        let idRol = -1
-
-        try {
-            const user = await UserModel.findById(idUser)
-            if (user) {
-                req.body.usuarioGestor = user._id
-                RolModel.findOne({ name: 'manager' }, (err, rol) => {
-                    if (err) {
-                        res.status(500).send({ message: err })
-                        return
-                    }
-
-                    user.roles = rol._id
-                    user.save((err, user) => {
-                        if (err) {
-                            res.status(500).send({ message: err })
-                        }
-                    })
-                })
-            } else {
-                res.status(404).json({ message: 'No se encontró el usuario' })
-                return
-            }
-        } catch (error) {
-            res.status(404).json({ message: error.message })
-            return
-        }
-    }
-
     PredioModel.findByIdAndUpdate(
         id,
         req.body,
         { useFindAndModify: false },
-        (err, predio, resp) => {
+        (err, predio) => {
             if (err) {
                 res.status(500).send({
                     message: err,
@@ -118,10 +88,11 @@ PredioController.update = async (req, res) => {
                     message: `Predio no encontrado.`,
                 })
             }
+
+            res.send({ message: 'Predio Actualizado', predio: predio })
         }
     )
 
-    res.send({ message: 'Predio Actualizado' })
 }
 
 PredioController.destroy = async (req, res) => {

@@ -8,8 +8,7 @@ CultivoController.create = async (req, res) => {
     if (
         !req.body.predio ||
         !req.body.hectareas ||
-        !req.body.producto ||
-        !req.body.fechaInicio
+        !req.body.producto
     ) {
         res.status(400).send({
             message: 'Hay contenido que no puede estar vacío!',
