@@ -8,7 +8,14 @@ CultivoController.create = async (req, res) => {
     if (
         !req.body.predio ||
         !req.body.hectareas ||
-        !req.body.producto
+        !req.body.producto ||
+        !req.body.nSemillas ||
+        !req.body.tiempoCultivo ||
+        !req.body.agua ||
+        !req.body.fertilizante ||
+        !req.body.tiempoRecoleccion ||
+        !req.body.productoRecolectado ||
+        !req.body.tiempoProxSiembra
     ) {
         res.status(400).send({
             message: 'Hay contenido que no puede estar vacío!',
@@ -18,7 +25,14 @@ CultivoController.create = async (req, res) => {
 
     const cultivo = new CultivoModel({
         hectareas: req.body.hectareas,
-        fechaInicio: req.body.fechaInicio,
+        producto: req.body.producto,
+        nSemillas: req.body.nSemillas,
+        tiempoCultivo: req.body.tiempoCultivo,
+        agua: req.body.agua,
+        fertilizante: req.body.fertilizante,
+        tiempoRecoleccion: req.body.tiempoRecoleccion,
+        productoRecolectado: req.body.productoRecolectado,
+        tiempoProxSiembra: req.body.tiempoProxSiembra   
     })
 
     cultivo.save((err, cultivo) => {
@@ -34,18 +48,6 @@ CultivoController.create = async (req, res) => {
             try {
                 const predio = PredioModel.findById(req.body.predio)
                 cultivo.predio = req.body.predio
-            } catch (err) {
-                res.status(404).json({ message: err.message })
-            }
-        }
-
-        //ASIGNAR PRODUCTO
-        if (req.body.producto) {
-            try {
-                const productoAgricola = ProductoAgricolaModel.findById(
-                    req.body.producto
-                )
-                cultivo.producto = req.body.producto
             } catch (err) {
                 res.status(404).json({ message: err.message })
             }

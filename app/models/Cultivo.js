@@ -10,8 +10,15 @@ const Cultivo = mongoose.model(
         hectareas: Number,
         producto: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "ProductoAgricola",
-        }
+            ref: "ProductoAgricola", 
+        },
+        nSemillas: Number,
+        tiempoCultivo: Number,
+        agua: Number,
+        fertilizante: Number,
+        tiempoRecoleccion: Number,
+        productoRecolectado: Number,
+        tiempoProxSiembra: Number
     })
 );
 
